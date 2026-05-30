@@ -1,0 +1,1452 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>走进可耐福</title>
+<style>
+:root {
+  --knauf-deep: #003B71;
+  --knauf-mid: #5BA0D2;
+  --knauf-light: #E8F4FD;
+  --knauf-white: #FFFFFF;
+  --text-primary: #1A1A2E;
+  --text-secondary: #4A5568;
+  --text-muted: #A0AEC0;
+  --bg-page: #F0F4F8;
+  --gold: #C8960C;
+  --silver: #6B7280;
+  --green: #0D9488;
+  --purple: #7C3AED;
+  --red: #DC2626;
+  --card-shadow: 0 2px 8px rgba(0,59,113,0.08);
+  --card-hover: 0 4px 16px rgba(0,59,113,0.14);
+  --divider: #E2E8F0;
+  --radius: 12px;
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 12px);
+  --max-width: 480px;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  font-family: -apple-system, "PingFang SC", "Microsoft YaHei", "Helvetica Neue", sans-serif;
+  background: var(--bg-page);
+  color: var(--text-primary);
+  line-height: 1.5;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  min-height: 100vh;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+#app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Header */
+#header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: linear-gradient(135deg, var(--knauf-deep), #002952);
+  color: white;
+  padding: calc(12px + var(--safe-top)) 16px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 52px;
+  box-shadow: 0 2px 12px rgba(0,59,113,0.3);
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo {
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  color: white;
+}
+
+.header-divider {
+  width: 1px;
+  height: 20px;
+  background: rgba(255,255,255,0.3);
+}
+
+#breadcrumb {
+  font-size: 13px;
+  color: rgba(255,255,255,0.85);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 200px;
+}
+
+#breadcrumb span {
+  color: rgba(255,255,255,0.5);
+  margin: 0 4px;
+}
+
+#breadcrumb .clickable {
+  color: rgba(255,255,255,0.7);
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+#homeBtn {
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.25);
+  color: white;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background 0.2s;
+  flex-shrink: 0;
+}
+
+#homeBtn:active {
+  background: rgba(255,255,255,0.3);
+}
+
+#homeBtn.hidden {
+  display: none;
+}
+
+/* Main view container */
+#view-container {
+  flex: 1;
+  position: relative;
+  padding-bottom: var(--safe-bottom);
+}
+
+.view {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  min-height: 100%;
+  padding: 16px;
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.35s ease;
+  will-change: transform, opacity;
+}
+
+.view.active {
+  position: relative;
+  transform: translateX(0);
+  opacity: 1;
+  z-index: 1;
+}
+
+.view.inactive-right {
+  transform: translateX(100%);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.view.inactive-left {
+  transform: translateX(-30%);
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Welcome Banner */
+.welcome-banner {
+  background: linear-gradient(135deg, var(--knauf-deep) 0%, #004B87 40%, #002952 100%);
+  border-radius: var(--radius);
+  padding: 28px 20px 24px;
+  margin-bottom: 16px;
+  text-align: center;
+  color: white;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0,59,113,0.25);
+}
+
+.welcome-banner::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(ellipse at 30% 20%, rgba(91,160,210,0.3) 0%, transparent 60%),
+              radial-gradient(ellipse at 70% 80%, rgba(0,59,113,0.4) 0%, transparent 60%);
+  animation: bannerGlow 6s ease-in-out infinite;
+}
+
+@keyframes bannerGlow {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(-10px, -5px); }
+}
+
+.welcome-banner > * {
+  position: relative;
+  z-index: 1;
+}
+
+.welcome-icon {
+  font-size: 36px;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.welcome-title {
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  margin-bottom: 4px;
+}
+
+.welcome-subtitle {
+  font-size: 13px;
+  opacity: 0.85;
+  margin-bottom: 10px;
+}
+
+.welcome-stats {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 12px;
+}
+
+.welcome-stat {
+  text-align: center;
+}
+
+.welcome-stat-num {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--knauf-mid);
+}
+
+.welcome-stat-label {
+  font-size: 10px;
+  opacity: 0.7;
+  margin-top: 2px;
+}
+
+/* Card Grid */
+.card-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+@media (max-width: 340px) {
+  .card-grid { grid-template-columns: 1fr; }
+}
+
+.card {
+  background: var(--knauf-white);
+  border-radius: var(--radius);
+  padding: 18px 14px;
+  box-shadow: var(--card-shadow);
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 6px;
+  border-left: 3px solid transparent;
+  animation: cardFadeIn 0.5s ease both;
+}
+
+.card:nth-child(1) { animation-delay: 0.05s; }
+.card:nth-child(2) { animation-delay: 0.1s; }
+.card:nth-child(3) { animation-delay: 0.15s; }
+.card:nth-child(4) { animation-delay: 0.2s; }
+.card:nth-child(5) { animation-delay: 0.25s; }
+.card:nth-child(6) { animation-delay: 0.3s; }
+
+@keyframes cardFadeIn {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.card:active {
+  transform: scale(0.97);
+  box-shadow: var(--card-hover);
+}
+
+.card-icon {
+  font-size: 32px;
+  line-height: 1;
+}
+
+.card-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.card-subtitle {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.card-arrow {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+  font-size: 14px;
+  opacity: 0.5;
+}
+
+/* Card accent colors */
+.card-accent-gold { border-left-color: var(--gold); }
+.card-accent-silver { border-left-color: var(--silver); }
+.card-accent-green { border-left-color: var(--green); }
+.card-accent-blue { border-left-color: var(--knauf-mid); }
+.card-accent-purple { border-left-color: var(--purple); }
+.card-accent-more { border-left: 3px dashed var(--text-muted); }
+
+/* Section header in sub-view */
+.section-header {
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.section-header-icon {
+  font-size: 40px;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.section-header-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--knauf-deep);
+}
+
+.section-header-desc {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+/* Detail View */
+.detail-hero {
+  background: linear-gradient(135deg, var(--knauf-deep), #004B87);
+  border-radius: var(--radius);
+  padding: 24px 20px;
+  margin-bottom: 16px;
+  color: white;
+  text-align: center;
+}
+
+.detail-hero.premium {
+  background: linear-gradient(135deg, #1a1a2e, var(--knauf-deep));
+  border: 1px solid var(--gold);
+}
+
+.detail-hero.mid {
+  background: linear-gradient(135deg, #1a1a2e, #2d3748);
+  border: 1px solid var(--silver);
+}
+
+.detail-hero.eco {
+  background: linear-gradient(135deg, #064e3b, #0d9488);
+}
+
+.detail-badge {
+  display: inline-block;
+  padding: 3px 12px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.badge-premium { background: var(--gold); color: white; }
+.badge-mid { background: var(--silver); color: white; }
+.badge-eco { background: var(--green); color: white; }
+.badge-info { background: var(--knauf-mid); color: white; }
+
+.detail-hero h2 {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.detail-hero .tagline {
+  font-size: 13px;
+  opacity: 0.85;
+}
+
+/* Spec cards */
+.spec-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.spec-card {
+  background: var(--knauf-white);
+  border-radius: var(--radius);
+  padding: 14px 12px;
+  text-align: center;
+  box-shadow: var(--card-shadow);
+}
+
+.spec-value {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--knauf-deep);
+}
+
+.spec-value.red { color: var(--red); }
+.spec-value.green { color: var(--green); }
+
+.spec-label {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+/* Info card */
+.info-card {
+  background: var(--knauf-white);
+  border-radius: var(--radius);
+  padding: 16px;
+  margin-bottom: 12px;
+  box-shadow: var(--card-shadow);
+}
+
+.info-card h3 {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--knauf-deep);
+  margin-bottom: 8px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--divider);
+}
+
+.info-card p, .info-card li {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+
+.info-card ul {
+  list-style: none;
+  padding: 0;
+}
+
+.info-card li {
+  padding: 3px 0;
+  padding-left: 18px;
+  position: relative;
+}
+
+.info-card li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: var(--green);
+  font-weight: 700;
+  font-size: 12px;
+}
+
+/* Feature tags */
+.tag-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.tag {
+  background: var(--knauf-light);
+  color: var(--knauf-deep);
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+/* Comparison Bar Chart */
+.bar-chart {
+  margin-bottom: 12px;
+}
+
+.bar-row {
+  margin-bottom: 12px;
+}
+
+.bar-labels {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 4px;
+  font-size: 12px;
+}
+
+.bar-label-name {
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.bar-label-value {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.bar-track {
+  height: 8px;
+  background: var(--divider);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.bar-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.bar-fill.knauf { background: linear-gradient(90deg, var(--knauf-deep), var(--knauf-mid)); }
+.bar-fill.competitor { background: linear-gradient(90deg, #94a3b8, #cbd5e1); }
+.bar-fill.standard { background: linear-gradient(90deg, #e2e8f0, #f1f5f9); }
+
+.bar-legend {
+  display: flex;
+  gap: 16px;
+  margin-top: 8px;
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.bar-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.bar-legend-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+}
+
+.bar-legend-dot.knauf { background: var(--knauf-deep); }
+.bar-legend-dot.competitor { background: #94a3b8; }
+.bar-legend-dot.standard { background: #e2e8f0; }
+
+/* Comparison table */
+.comp-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 11px;
+  margin-bottom: 12px;
+}
+
+.comp-table th {
+  background: var(--knauf-deep);
+  color: white;
+  padding: 8px 6px;
+  font-weight: 500;
+  text-align: center;
+}
+
+.comp-table td {
+  padding: 8px 6px;
+  text-align: center;
+  border-bottom: 1px solid var(--divider);
+}
+
+.comp-table .highlight {
+  background: var(--knauf-light);
+  font-weight: 600;
+  color: var(--knauf-deep);
+}
+
+.comp-table .check {
+  color: var(--green);
+  font-weight: 700;
+}
+
+.comp-table .cross {
+  color: var(--red);
+}
+
+/* Process steps */
+.process-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.process-step {
+  background: var(--knauf-white);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  box-shadow: var(--card-shadow);
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.process-step-num {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--knauf-deep);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.process-step-content h4 {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+}
+
+.process-step-content p {
+  font-size: 12px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+/* Toast / Coming Soon */
+#toast {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  background: rgba(0, 0, 0, 0.85);
+  color: white;
+  padding: 16px 28px;
+  border-radius: 12px;
+  font-size: 15px;
+  z-index: 200;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.8, 1);
+  pointer-events: none;
+  text-align: center;
+}
+
+#toast.show {
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.toast-icon {
+  font-size: 32px;
+  display: block;
+  margin-bottom: 4px;
+}
+
+/* Back button */
+.back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--knauf-mid);
+  font-size: 13px;
+  cursor: pointer;
+  margin-bottom: 12px;
+  padding: 4px 0;
+}
+
+.back-btn:active { opacity: 0.6; }
+
+/* Comparison highlight card */
+.highlight-card {
+  background: linear-gradient(135deg, #fffbeb, #fef3c7);
+  border: 1px solid #f59e0b;
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  margin-bottom: 12px;
+  font-size: 13px;
+  color: #92400e;
+}
+
+.highlight-card strong {
+  color: #b45309;
+}
+
+/* Full-width card on mobile */
+@media (max-width: 360px) {
+  .spec-grid { grid-template-columns: 1fr; }
+  .welcome-stats { gap: 12px; }
+  .welcome-stat-num { font-size: 17px; }
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 0; }
+</style>
+</head>
+<body>
+<div id="app">
+  <div id="header">
+    <div class="header-left">
+      <span class="logo">KNAUF</span>
+      <span class="header-divider"></span>
+      <span id="breadcrumb">首页</span>
+    </div>
+    <button id="homeBtn" class="hidden" onclick="goHome()" title="回首页">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    </button>
+  </div>
+  <div id="view-container">
+    <div id="view-home" class="view active"></div>
+    <div id="view-sub" class="view inactive-right"></div>
+    <div id="view-detail" class="view inactive-right"></div>
+  </div>
+  <div id="toast"></div>
+</div>
+
+<script type="application/json" id="data-payload">
+{
+  "meta": {
+    "title": "走进可耐福",
+    "version": "1.0",
+    "company": "可耐福建筑系统"
+  },
+  "welcome": {
+    "greeting": "欢迎走进 KNAUF",
+    "subtitle": "德国品质 · 建筑未来",
+    "tagline": "全球石膏板年产36.3亿平米 · 世界第一",
+    "stats": [
+      { "num": "320+", "label": "生产基地" },
+      { "num": "90+", "label": "国家和地区" },
+      { "num": "42,500+", "label": "全球员工" },
+      { "num": "1932", "label": "始于德国" }
+    ]
+  },
+  "sections": [
+    {
+      "id": "gypsum",
+      "title": "石膏板",
+      "icon": "📦",
+      "subtitle": "真正的德国品质",
+      "color": "#C8960C",
+      "desc": "可耐福石膏板全系列产品通过中国十环认证、中国绿色建材、美国LEED认证、法国A+认证，为客户提供环保健康的家居保障。",
+      "items": [
+        {
+          "id": "lanzhen",
+          "name": "蓝臻 Pro+",
+          "tag": "至上品质 · 奢享之选",
+          "tier": "premium",
+          "badge": "高端旗舰",
+          "desc": "行业领先水平的性能和功能于一身的高端产品，具有更好的应用普及性。",
+          "specs": [
+            { "label": "强度超国标", "value": "30%", "color": "" },
+            { "label": "硬度超国标", "value": "140%", "color": "" },
+            { "label": "平米重量(9.5mm)", "value": "6.85kg", "color": "" },
+            { "label": "甲醛释放量", "value": "E-NF级", "color": "green" }
+          ],
+          "subProducts": [
+            { "name": "高强石膏板", "features": ["强度超出国标要求30%", "硬度超出国标140%", "遇火稳定性90min", "E-NF级零甲醛"] },
+            { "name": "醛净石膏板", "features": ["甲醛净化效率≥95%", "净化持久性≥90%", "强度超国标30%", "E-NF级零甲醛"] },
+            { "name": "耐水石膏板", "features": ["表面吸水量≤160g/m²", "吸水率≤8%", "强度超国标30%", "E-NF级零甲醛"] },
+            { "name": "全功能石膏板", "features": ["防火+耐水+醛净+高强", "四项功能合一", "硬度超国标140%", "E-NF级零甲醛"] }
+          ],
+          "sizes": "9.5/12 × 1200 × 1500/2000/2400/3000mm",
+          "tech": ["DAB发泡技术", "晶体重塑技术", "强芯配方"]
+        },
+        {
+          "id": "lanting",
+          "name": "岚庭 Premier",
+          "tag": "强硬兼备 · 均衡守护",
+          "tier": "mid",
+          "badge": "中高端",
+          "desc": "较高性能水平的产品，侧重性能和功能的同时具有最大的竞争市场适用性。",
+          "specs": [
+            { "label": "强度超国标", "value": "20%", "color": "" },
+            { "label": "硬度超国标", "value": "129%", "color": "" },
+            { "label": "平米重量(9.5mm)", "value": "6.1kg", "color": "" },
+            { "label": "甲醛释放量", "value": "E-NF级", "color": "green" }
+          ],
+          "subProducts": [
+            { "name": "绿色无醛家装板", "features": ["强度超国标20%", "硬度超国标129%", "E-NF级零甲醛", "A级不燃"] },
+            { "name": "醛净家装板", "features": ["甲醛净化效率≥95%", "净化持久性≥90%", "E-NF级零甲醛", "A级不燃"] }
+          ],
+          "sizes": "9.5/12 × 1200 × 2000/2400/3000mm",
+          "tech": ["DAB发泡技术", "晶体重塑技术", "强芯配方"]
+        },
+        {
+          "id": "lanxuan",
+          "name": "岚轩 ECO",
+          "tag": "低碳筑家 · 强硬兼备",
+          "tier": "eco",
+          "badge": "经济低碳",
+          "desc": "较高性能水平的产品，侧重低碳和性能的同时具有较大的竞争市场适用性。",
+          "specs": [
+            { "label": "强度超国标", "value": "15%", "color": "" },
+            { "label": "硬度超国标", "value": "114%", "color": "" },
+            { "label": "平米重量(9.5mm)", "value": "5.9kg", "color": "" },
+            { "label": "低碳排放", "value": "轻量化", "color": "green" }
+          ],
+          "subProducts": [
+            { "name": "低碳筑家石膏板", "features": ["强度超国标15%", "硬度超国标114%", "轻量化设计", "经济适用"] }
+          ],
+          "sizes": "9.5/12 × 1200 × 2000/2400/3000mm",
+          "tech": ["DAB发泡技术", "晶体重塑技术"]
+        },
+        {
+          "id": "gypsum-tech",
+          "name": "三大核心科技",
+          "tag": "德国专业制造技术",
+          "tier": "info",
+          "badge": "核心技术",
+          "desc": "从视觉可见到微观晶体，三大黑科技铸就超凡品质。",
+          "specs": [
+            { "label": "DAB发泡", "value": "轻质高强", "color": "" },
+            { "label": "晶体重塑", "value": "密集连接", "color": "" },
+            { "label": "强芯配方", "value": "充分融合", "color": "" }
+          ],
+          "techDetails": [
+            { "name": "DAB发泡技术", "desc": "新一代发泡技术，发泡均匀可控，降低板重的同时提升强度，实现真正的轻质高强。" },
+            { "name": "晶体重塑技术", "desc": "从原料到混合成型的专业工艺流程使石膏晶体得以重塑。经重塑的石膏晶体纤细且细腻，晶体密集连接，大幅提高芯体强度。" },
+            { "name": "强芯配方", "desc": "新一代德国专业配方促使石膏晶体充分发育和融合，提升晶体间连接强度，提高芯体强度、硬度和抗下陷性能。" }
+          ]
+        },
+        {
+          "id": "gypsum-compare",
+          "name": "竞品对比",
+          "tag": "蓝臻 Pro+ vs G品牌 vs 国标",
+          "tier": "info",
+          "badge": "性能对比",
+          "desc": "9.5mm蓝臻 Pro+与同等规格G品牌及国标技术要求的性能对比数据。",
+          "comparison": {
+            "metrics": ["纵向断裂荷载(N)", "横向断裂荷载(N)", "端头硬度(N)", "棱边硬度(N)", "平米重量(kg)"],
+            "knauf": [540, 235, 185, 190, 6.85],
+            "competitor": [518, 214, 187, 165, 6.3],
+            "standard": [400, 160, 70, 70, 9.5],
+            "competitorName": "G品牌",
+            "standardName": "国标GB"
+          },
+          "functionCompare": {
+            "headers": ["增益功能", "蓝臻高强", "蓝臻醛净", "蓝臻耐水", "蓝臻全功能", "G品牌"],
+            "rows": [
+              ["耐水防潮", "—", "—", "✓", "✓", "—"],
+              ["遇火稳定性", "90min", "90min", "90min", "90min", "—"],
+              ["甲醛净化", "—", "✓", "—", "✓", "—"],
+              ["甲醛释放量", "E-NF", "E-NF", "E-NF", "E-NF", "—"]
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "stud",
+      "title": "轻钢龙骨",
+      "icon": "🔩",
+      "subtitle": "真正的德国品质",
+      "color": "#5BA0D2",
+      "desc": "可耐福轻钢龙骨采用意大利原装进口生产线，年产能2000万米。德国专业骨型设计和制造工艺，保障龙骨性能全方位提升。",
+      "items": [
+        {
+          "id": "lanzhen-az",
+          "name": "蓝臻 AZ合金龙骨",
+          "tag": "技术领先 · 防锈卓越",
+          "tier": "premium",
+          "badge": "旗舰产品",
+          "desc": "AZ合金镀层+蓝色疏水隔离涂层，形成多重防腐蚀保护。表面耐腐蚀性能至少是同等镀锌量龙骨的15倍。",
+          "specs": [
+            { "label": "防腐蚀性能", "value": "15倍+", "color": "" },
+            { "label": "镀层类型", "value": "AZ合金+涂层", "color": "" },
+            { "label": "盐雾试验", "value": "360h无变化", "color": "green" },
+            { "label": "适用环境", "value": "高潮湿/腐蚀", "color": "" }
+          ],
+          "features": ["AZ合金镀层：防锈能力是镀锌的6倍以上", "蓝色疏水隔离涂层：隔绝水与空气接触", "表面耐腐蚀提升10倍", "断面自修复保护", "龙骨品类完善，适合家装选用"]
+        },
+        {
+          "id": "bozhen-zam",
+          "name": "铂臻 ZAM合金龙骨",
+          "tag": "新一代建筑用轻钢龙骨",
+          "tier": "mid",
+          "badge": "中高端",
+          "desc": "ZAM合金镀层耐腐蚀性能优异，是同等镀锌量的4倍以上。纯合金镀层均匀致密，硬度高抗划伤，具有自修复功能。",
+          "specs": [
+            { "label": "防腐蚀性能", "value": "4倍+", "color": "" },
+            { "label": "镀层类型", "value": "ZAM合金", "color": "" },
+            { "label": "镀层重量", "value": "120g/m²", "color": "" },
+            { "label": "自修复", "value": "支持", "color": "green" }
+          ],
+          "features": ["ZAM合金镀层耐腐蚀是镀锌4倍以上", "纯合金镀层均匀致密", "硬度高抗划伤", "无惧磨损", "断口、钉孔等损伤部位防锈自修复", "龙骨品类完善"]
+        },
+        {
+          "id": "duxin",
+          "name": "镀锌龙骨",
+          "tag": "经济适用 · 品质可靠",
+          "tier": "eco",
+          "badge": "经济实用",
+          "desc": "120g/m²热镀锌，是国家标准技术要求的1.2倍。具备可耐福轻钢龙骨的其他优异特性。",
+          "specs": [
+            { "label": "镀层重量", "value": "120g/m²", "color": "" },
+            { "label": "超国标倍数", "value": "1.2倍", "color": "" },
+            { "label": "镀层类型", "value": "热镀锌", "color": "" },
+            { "label": "适用环境", "value": "常规/一般潮湿", "color": "" }
+          ],
+          "features": ["120g/m²热镀锌，超国标1.2倍", "德国专业骨型设计", "龙骨宽翼设计，稳定性好", "加强筋设计，大幅提高刚性", "两翼不等边设计，方便接长对扣"]
+        },
+        {
+          "id": "stud-tech",
+          "name": "德国制造工艺",
+          "tag": "专业骨型设计",
+          "tier": "info",
+          "badge": "工艺优势",
+          "desc": "专业的骨型设计和制造工艺，保障了龙骨性能的全方位提升。",
+          "features": ["意大利原装进口生产线，年产能2000万米", "生产速度快，产品质量稳定性高", "模具制作精度高，更换便捷", "编程控制，生产过程自动调整", "龙骨宽翼设计：稳定性好，刚性高", "加强筋设计：大幅提高龙骨刚性", "两翼不等边设计：方便施工接长及对扣加强"]
+        },
+        {
+          "id": "stud-compare",
+          "name": "镀层对比",
+          "tag": "三种镀层性能比较",
+          "tier": "info",
+          "badge": "性能对比",
+          "desc": "可耐福轻钢龙骨三种镀层满足不同环境和经济性要求。",
+          "comparison": {
+            "metrics": ["耐腐蚀性能", "表面涂层", "自修复功能", "适用环境", "经济性"],
+            "knauf": [15, 10, 10, 10, 6],
+            "competitor": [8, 6, 8, 7, 8],
+            "standard": [3, 0, 0, 4, 10],
+            "competitorName": "铂臻ZAM",
+            "standardName": "镀锌龙骨"
+          },
+          "comparisonNote": "本图为蓝臻AZ（可耐福）vs 铂臻ZAM vs 镀锌龙骨的相对性能评分(满分10分)"
+        }
+      ]
+    },
+    {
+      "id": "plaster",
+      "title": "抹灰石膏",
+      "icon": "🏗️",
+      "subtitle": "机喷单层抹灰石膏系统",
+      "color": "#0D9488",
+      "desc": "从传统手工抹灰石膏到技术领先的机喷单层抹灰石膏，可耐福抹灰石膏系统产品体系完善，满足不同施工需求。",
+      "items": [
+        {
+          "id": "mp75",
+          "name": "MP75 机喷系统",
+          "tag": "室内无尘抹灰革命",
+          "tier": "premium",
+          "badge": "核心产品",
+          "desc": "欧洲当前主流应用的轻质抹灰产品。单层抹灰可直接涂刷涂料或贴壁纸，可机械喷涂施工，效率更高。",
+          "specs": [
+            { "label": "施工效率", "value": "600m²/天", "color": "" },
+            { "label": "效率提升", "value": "33倍+", "color": "green" },
+            { "label": "施工人数", "value": "5人/台", "color": "" },
+            { "label": "抹灰厚度", "value": "5-35mm", "color": "" }
+          ],
+          "features": [
+            "1台设备+5人施工，一天可施工600平米",
+            "效率是手工抹灰的33倍以上",
+            "单层抹灰施工，省去批刮腻子",
+            "减少工序同时省略腻子材料成本",
+            "无需腻子等找平材料的全石膏完成面",
+            "材料超环保：无机物，无有害物质挥发",
+            "保温防火，调节室内湿度",
+            "性能高强稳定，不开裂不空鼓",
+            "无醛无苯，健康环保"
+          ],
+          "reference": "参考用量：10Kg/10mm/m²"
+        },
+        {
+          "id": "manual-plaster",
+          "name": "传统手抹系统",
+          "tag": "经典工艺 · 品质稳定",
+          "tier": "mid",
+          "badge": "经典工艺",
+          "desc": "适用于各类底层抹灰需求，产品体系完善，施工灵活。",
+          "specs": [
+            { "label": "底层抹灰厚度", "value": "3-20mm", "color": "" },
+            { "label": "参考用量", "value": "7.5-12Kg", "color": "" },
+            { "label": "施工方式", "value": "手抹", "color": "" }
+          ],
+          "features": [
+            "底层抹灰石膏：抹灰厚度3-10mm，参考用量12Kg/10mm/m²",
+            "轻质底层抹灰：抹灰厚度5-20mm，参考用量8.5Kg/10mm/m²",
+            "重质底层抹灰：抹灰厚度5-20mm，参考用量7.5Kg/10mm/m²",
+            "性能高强稳定，不开裂不空鼓",
+            "无醛无苯，健康环保"
+          ]
+        },
+        {
+          "id": "plaster-advantage",
+          "name": "系统优势",
+          "tag": "石膏建材的天然优势",
+          "tier": "info",
+          "badge": "优势解读",
+          "desc": "石膏是一种天然的胶凝材料，无需加胶即可产生优异的胶粘性能，具备多重环保和功能优势。",
+          "features": [
+            "超环保材料：无机物，无有害物质挥发",
+            "具有亲肤性，可直接接触人体皮肤",
+            "保温防火，调节室内湿度",
+            "无需其他材料即可完成找平处理全工序",
+            "避免了其他材料带来污染的风险",
+            "单层抹灰可直接涂刷涂料或贴壁纸",
+            "极大降低劳动强度，提高施工效率"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "workflow",
+      "title": "工作流程",
+      "icon": "📋",
+      "subtitle": "标准化服务流程",
+      "color": "#7C3AED",
+      "desc": "可耐福拥有完善的服务体系，从下单到售后，标准化流程确保每位客户获得专业高效的服务体验。",
+      "items": [
+        {
+          "id": "ordering",
+          "name": "下单流程",
+          "tag": "标准化订单管理",
+          "tier": "info",
+          "badge": "流程指南",
+          "specs": [],
+          "steps": [
+            { "title": "联系客服", "desc": "新客户联系客服，由客服根据客户需求、区域、价格政策等推荐产品并建立联系。" },
+            { "title": "提前一周沟通", "desc": "产品提前一周做计划，提前制定采购计划。新品提前一周沟通，防止产品缺货。" },
+            { "title": "特殊尺寸产品", "desc": "定尺产品需提前14天预定（从客户下单开始计算）。石膏板最低起订量8000平米，龙骨最低起订量300支。" },
+            { "title": "提交申请单", "desc": "客户需提前提交采购申请，填写申请单并提交。" },
+            { "title": "展示材料确认", "desc": "新品/展示材料需提前与销售沟通，提供尺寸和具体要求。门头、墙面材料需经销商提供尺寸和钢架信息。" }
+          ]
+        },
+        {
+          "id": "complaint",
+          "name": "投诉处理",
+          "tag": "快速响应机制",
+          "tier": "info",
+          "badge": "售后保障",
+          "specs": [],
+          "steps": [
+            { "title": "采集证据照片", "desc": "需要拍摄石膏板及龙骨的产品标签、现场发现的产品批号、生产日期。拍摄产品缺陷细节照片（不少于2张）。拍摄缺陷产品数量照片、现场码放产品照片、施工完成面问题照片、大面积问题照片。" },
+            { "title": "报销售评估", "desc": "详细告知客户诉求及预期。投诉成立后详细告知客户实际损失及影响。" },
+            { "title": "损失评估", "desc": "按项目列出损失：如返工费、上楼费、误工损失，是否涉及辅材，是否造成间接损失。" }
+          ]
+        },
+        {
+          "id": "anti-counterfeit",
+          "name": "窜货与打假",
+          "tag": "市场秩序维护",
+          "tier": "info",
+          "badge": "权益保护",
+          "specs": [],
+          "steps": [
+            { "title": "发现窜货", "desc": "协助公司收集证据：采集产品日期、仓库位置、产品数量等，报公司销售统一协调处理。" },
+            { "title": "发现假货", "desc": "在保证安全的情况下，协助公司收集证据：采集产品日期、仓库位置、产品数量等，报公司统一法律协调处理。" }
+          ]
+        },
+        {
+          "id": "factory-tour",
+          "name": "工厂参观",
+          "tag": "实地考察体验",
+          "tier": "info",
+          "badge": "参观指南",
+          "specs": [],
+          "steps": [
+            { "title": "提前一周预约", "desc": "提前与销售沟通，一般提前一周时间为最佳，方便提前安排接待日程。" },
+            { "title": "确认参观信息", "desc": "提前沟通参观人数、客户人员及职位，确认公司接待人员，是否需要安排用餐和住宿等。" },
+            { "title": "公司安排接待", "desc": "公司统一安排接待计划，提前与客户沟通确认。" }
+          ]
+        }
+      ]
+    }
+  ]
+}
+</script>
+
+<script>
+(function() {
+  // Parse data
+  var data = JSON.parse(document.getElementById('data-payload').textContent);
+  var meta = data.meta;
+  var welcome = data.welcome;
+  var sections = data.sections;
+
+  // State
+  var nav = { depth: 0, sectionId: null, itemId: null, sectionIndex: -1, itemIndex: -1 };
+  var viewHome = document.getElementById('view-home');
+  var viewSub = document.getElementById('view-sub');
+  var viewDetail = document.getElementById('view-detail');
+  var breadcrumb = document.getElementById('breadcrumb');
+  var homeBtn = document.getElementById('homeBtn');
+  var toast = document.getElementById('toast');
+  var toastTimer = null;
+
+  // Icons
+  var sectionIcons = { gypsum: '📦', stud: '🔩', plaster: '🏗️', workflow: '📋' };
+
+  // Init
+  function init() {
+    renderHome();
+    window.addEventListener('popstate', function(e) {
+      if (e.state) {
+        nav = e.state;
+        updateView();
+      } else {
+        goHome(true);
+      }
+    });
+  }
+
+  // Toast
+  function showToast(msg, icon) {
+    if (toastTimer) clearTimeout(toastTimer);
+    toast.innerHTML = (icon ? '<span class="toast-icon">' + icon + '</span>' : '') + msg;
+    toast.classList.add('show');
+    toastTimer = setTimeout(function() {
+      toast.classList.remove('show');
+    }, 1800);
+  }
+
+  // Navigation
+  function pushNav() {
+    try {
+      history.pushState({ depth: nav.depth, sectionId: nav.sectionId, itemId: nav.itemId, sectionIndex: nav.sectionIndex, itemIndex: nav.itemIndex }, '', '');
+    } catch(e) {}
+  }
+
+  window.goHome = function(silent) {
+    nav = { depth: 0, sectionId: null, itemId: null, sectionIndex: -1, itemIndex: -1 };
+    if (!silent) pushNav();
+    updateView();
+  };
+
+  window.goSection = function(sectionId) {
+    var idx = -1;
+    for (var i = 0; i < sections.length; i++) {
+      if (sections[i].id === sectionId) { idx = i; break; }
+    }
+    nav = { depth: 1, sectionId: sectionId, itemId: null, sectionIndex: idx, itemIndex: -1 };
+    pushNav();
+    updateView();
+  };
+
+  window.goDetail = function(itemId) {
+    var section = sections[nav.sectionIndex];
+    var idx = -1;
+    for (var i = 0; i < section.items.length; i++) {
+      if (section.items[i].id === itemId) { idx = i; break; }
+    }
+    nav.itemId = itemId;
+    nav.itemIndex = idx;
+    nav.depth = 2;
+    pushNav();
+    updateView();
+  };
+
+  window.goBack = function() {
+    if (nav.depth === 2) {
+      nav.depth = 1;
+      nav.itemId = null;
+      nav.itemIndex = -1;
+    } else if (nav.depth === 1) {
+      nav.depth = 0;
+      nav.sectionId = null;
+      nav.sectionIndex = -1;
+    }
+    pushNav();
+    updateView();
+  };
+
+  function updateView() {
+    // Header
+    if (nav.depth === 0) {
+      breadcrumb.innerHTML = '首页';
+      homeBtn.classList.add('hidden');
+    } else if (nav.depth === 1) {
+      var sec = sections[nav.sectionIndex];
+      breadcrumb.innerHTML = '<span class="clickable" onclick="goHome()">首页</span><span> › </span>' + sec.title;
+      homeBtn.classList.remove('hidden');
+    } else if (nav.depth === 2) {
+      var sec2 = sections[nav.sectionIndex];
+      var item = sec2.items[nav.itemIndex];
+      breadcrumb.innerHTML = '<span class="clickable" onclick="goHome()">首页</span><span> › </span><span class="clickable" onclick="goSection(\'' + sec2.id + '\')">' + sec2.title + '</span><span> › </span>' + item.name;
+      homeBtn.classList.remove('hidden');
+    }
+
+    // Views
+    viewHome.className = 'view';
+    viewSub.className = 'view';
+    viewDetail.className = 'view';
+
+    if (nav.depth === 0) {
+      viewHome.classList.add('active');
+      viewSub.classList.add('inactive-right');
+      viewDetail.classList.add('inactive-right');
+    } else if (nav.depth === 1) {
+      viewHome.classList.add('inactive-left');
+      viewSub.classList.add('active');
+      viewDetail.classList.add('inactive-right');
+      renderSub();
+    } else if (nav.depth === 2) {
+      viewHome.classList.add('inactive-left');
+      viewSub.classList.add('inactive-left');
+      viewDetail.classList.add('active');
+      renderDetail();
+    }
+
+    // Scroll to top
+    document.getElementById('view-container').scrollTop = 0;
+    window.scrollTo(0, 0);
+  }
+
+  // Render Home
+  function renderHome() {
+    var h = '';
+    // Welcome banner
+    h += '<div class="welcome-banner">';
+    h += '<span class="welcome-icon">🏗️</span>';
+    h += '<div class="welcome-title">' + welcome.greeting + '</div>';
+    h += '<div class="welcome-subtitle">' + welcome.subtitle + '</div>';
+    h += '<div style="font-size:11px;opacity:0.7;">' + welcome.tagline + '</div>';
+    h += '<div class="welcome-stats">';
+    for (var i = 0; i < welcome.stats.length; i++) {
+      var s = welcome.stats[i];
+      h += '<div class="welcome-stat"><div class="welcome-stat-num">' + s.num + '</div><div class="welcome-stat-label">' + s.label + '</div></div>';
+    }
+    h += '</div></div>';
+
+    // Section cards
+    h += '<div class="card-grid">';
+    var accents = ['card-accent-gold', 'card-accent-blue', 'card-accent-green', 'card-accent-purple'];
+    for (var i = 0; i < sections.length; i++) {
+      var sec = sections[i];
+      h += '<div class="card ' + accents[i] + '" onclick="goSection(\'' + sec.id + '\')">';
+      h += '<span class="card-icon">' + sec.icon + '</span>';
+      h += '<span class="card-title">' + sec.title + '</span>';
+      h += '<span class="card-subtitle">' + sec.subtitle + '</span>';
+      h += '</div>';
+    }
+    // More card
+    h += '<div class="card card-accent-more" onclick="showToast(\'敬请期待...\', \'🚧\')">';
+    h += '<span class="card-icon">✨</span>';
+    h += '<span class="card-title">更多+</span>';
+    h += '<span class="card-subtitle">更多精彩内容</span>';
+    h += '</div>';
+    h += '</div>';
+
+    viewHome.innerHTML = h;
+  }
+
+  // Render Sub
+  function renderSub() {
+    var sec = sections[nav.sectionIndex];
+    var h = '';
+    h += '<div class="section-header">';
+    h += '<span class="section-header-icon">' + sec.icon + '</span>';
+    h += '<div class="section-header-title">' + sec.title + '</div>';
+    h += '<div class="section-header-desc">' + sec.desc + '</div>';
+    h += '</div>';
+    h += '<div class="card-grid">';
+    for (var i = 0; i < sec.items.length; i++) {
+      var item = sec.items[i];
+      var accent = item.tier === 'premium' ? 'card-accent-gold' : (item.tier === 'mid' ? 'card-accent-silver' : (item.tier === 'eco' ? 'card-accent-green' : 'card-accent-blue'));
+      h += '<div class="card ' + accent + '" onclick="goDetail(\'' + item.id + '\')">';
+      h += '<span class="card-icon">' + (item.tier === 'premium' ? '⭐' : (item.tier === 'mid' ? '🔷' : (item.tier === 'eco' ? '🌿' : '📊'))) + '</span>';
+      h += '<span class="card-title">' + item.name + '</span>';
+      h += '<span class="card-subtitle">' + item.tag + '</span>';
+      h += '</div>';
+    }
+    h += '</div>';
+    viewSub.innerHTML = h;
+  }
+
+  // Render Detail
+  function renderDetail() {
+    var sec = sections[nav.sectionIndex];
+    var item = sec.items[nav.itemIndex];
+    var h = '';
+
+    // Back button
+    h += '<div class="back-btn" onclick="goBack()">← 返回</div>';
+
+    // Hero
+    var heroClass = item.tier === 'premium' ? 'premium' : (item.tier === 'mid' ? 'mid' : (item.tier === 'eco' ? 'eco' : ''));
+    h += '<div class="detail-hero ' + heroClass + '">';
+    if (item.badge) {
+      var badgeClass = item.tier === 'premium' ? 'badge-premium' : (item.tier === 'mid' ? 'badge-mid' : (item.tier === 'eco' ? 'badge-eco' : 'badge-info'));
+      h += '<span class="detail-badge ' + badgeClass + '">' + item.badge + '</span>';
+    }
+    h += '<h2>' + item.name + '</h2>';
+    h += '<div class="tagline">' + item.tag + '</div>';
+    if (item.desc) h += '<p style="margin-top:8px;font-size:12px;opacity:0.8;">' + item.desc + '</p>';
+    h += '</div>';
+
+    // Specs grid
+    if (item.specs && item.specs.length > 0) {
+      h += '<div class="spec-grid">';
+      for (var i = 0; i < item.specs.length; i++) {
+        var sp = item.specs[i];
+        h += '<div class="spec-card">';
+        h += '<div class="spec-value' + (sp.color ? ' ' + sp.color : '') + '">' + sp.value + '</div>';
+        h += '<div class="spec-label">' + sp.label + '</div>';
+        h += '</div>';
+      }
+      h += '</div>';
+    }
+
+    // Sub products
+    if (item.subProducts) {
+      for (var i = 0; i < item.subProducts.length; i++) {
+        var sp = item.subProducts[i];
+        h += '<div class="info-card">';
+        h += '<h3>' + sp.name + '</h3>';
+        h += '<ul>';
+        for (var j = 0; j < sp.features.length; j++) {
+          h += '<li>' + sp.features[j] + '</li>';
+        }
+        h += '</ul></div>';
+      }
+    }
+
+    // Tech details
+    if (item.techDetails) {
+      for (var i = 0; i < item.techDetails.length; i++) {
+        var td = item.techDetails[i];
+        h += '<div class="info-card">';
+        h += '<h3>' + td.name + '</h3>';
+        h += '<p>' + td.desc + '</p>';
+        h += '</div>';
+      }
+    }
+
+    // Tech tags
+    if (item.tech) {
+      h += '<div class="tag-row">';
+      for (var i = 0; i < item.tech.length; i++) {
+        h += '<span class="tag">' + item.tech[i] + '</span>';
+      }
+      h += '</div>';
+    }
+
+    // Features list
+    if (item.features && !item.steps) {
+      h += '<div class="info-card"><h3>产品特性</h3><ul>';
+      for (var i = 0; i < item.features.length; i++) {
+        h += '<li>' + item.features[i] + '</li>';
+      }
+      h += '</ul></div>';
+    }
+
+    // Sizes
+    if (item.sizes) {
+      h += '<div class="info-card"><h3>产品规格</h3><p>' + item.sizes + '</p></div>';
+    }
+
+    // Reference
+    if (item.reference) {
+      h += '<div class="info-card"><h3>参考用量</h3><p>' + item.reference + '</p></div>';
+    }
+
+    // Process steps
+    if (item.steps) {
+      h += '<div class="process-steps">';
+      for (var i = 0; i < item.steps.length; i++) {
+        var step = item.steps[i];
+        h += '<div class="process-step">';
+        h += '<div class="process-step-num">' + (i + 1) + '</div>';
+        h += '<div class="process-step-content">';
+        h += '<h4>' + step.title + '</h4>';
+        h += '<p>' + step.desc + '</p>';
+        h += '</div></div>';
+      }
+      h += '</div>';
+    }
+
+    // Comparison bar chart
+    if (item.comparison) {
+      var comp = item.comparison;
+      h += '<div class="info-card"><h3>性能对比</h3>';
+      if (item.comparisonNote) {
+        h += '<p style="font-size:11px;color:var(--text-muted);margin-bottom:12px;">' + item.comparisonNote + '</p>';
+      }
+      var maxVal = 0;
+      for (var i = 0; i < comp.metrics.length; i++) {
+        var vals = [comp.knauf[i], comp.competitor[i], comp.standard[i]];
+        for (var j = 0; j < vals.length; j++) {
+          if (vals[j] > maxVal) maxVal = vals[j];
+        }
+      }
+      for (var i = 0; i < comp.metrics.length; i++) {
+        h += '<div class="bar-row">';
+        h += '<div class="bar-labels"><span class="bar-label-name">' + comp.metrics[i] + '</span><span class="bar-label-value">可耐福 ' + comp.knauf[i] + '</span></div>';
+        h += '<div class="bar-track"><div class="bar-fill knauf" style="width:' + (comp.knauf[i] / maxVal * 100) + '%"></div></div>';
+        h += '<div class="bar-labels" style="margin-top:3px;"><span style="font-size:11px;color:var(--text-muted);">' + comp.competitorName + '</span><span style="font-size:11px;color:var(--text-muted);">' + comp.competitor[i] + '</span></div>';
+        h += '<div class="bar-track"><div class="bar-fill competitor" style="width:' + (comp.competitor[i] / maxVal * 100) + '%"></div></div>';
+        h += '<div class="bar-labels" style="margin-top:3px;"><span style="font-size:11px;color:var(--text-muted);">' + comp.standardName + '</span><span style="font-size:11px;color:var(--text-muted);">' + comp.standard[i] + '</span></div>';
+        h += '<div class="bar-track"><div class="bar-fill standard" style="width:' + (comp.standard[i] / maxVal * 100) + '%"></div></div>';
+        h += '</div>';
+      }
+      h += '<div class="bar-legend"><div class="bar-legend-item"><div class="bar-legend-dot knauf"></div> 可耐福</div><div class="bar-legend-item"><div class="bar-legend-dot competitor"></div> ' + comp.competitorName + '</div><div class="bar-legend-item"><div class="bar-legend-dot standard"></div> ' + comp.standardName + '</div></div>';
+      h += '</div>';
+    }
+
+    // Function comparison table
+    if (item.functionCompare) {
+      var fc = item.functionCompare;
+      h += '<div class="info-card"><h3>增益功能对比</h3>';
+      h += '<div style="overflow-x:auto;"><table class="comp-table"><thead><tr>';
+      for (var i = 0; i < fc.headers.length; i++) {
+        h += '<th>' + fc.headers[i] + '</th>';
+      }
+      h += '</tr></thead><tbody>';
+      for (var i = 0; i < fc.rows.length; i++) {
+        h += '<tr>';
+        for (var j = 0; j < fc.rows[i].length; j++) {
+          var val = fc.rows[i][j];
+          var cls = '';
+          if (val === '✓') cls = 'check';
+          else if (val === '—') cls = 'cross';
+          if (j > 0 && j < fc.rows[i].length - 1 && val !== '—') cls += ' highlight';
+          h += '<td class="' + cls + '">' + val + '</td>';
+        }
+        h += '</tr>';
+      }
+      h += '</tbody></table></div></div>';
+    }
+
+    viewDetail.innerHTML = h;
+
+    // Animate bar charts after render
+    setTimeout(function() {
+      var bars = viewDetail.querySelectorAll('.bar-fill');
+      for (var i = 0; i < bars.length; i++) {
+        bars[i].style.width = bars[i].style.width;
+      }
+    }, 50);
+  }
+
+  // Init
+  init();
+})();
+</script>
+</body>
+</html>
