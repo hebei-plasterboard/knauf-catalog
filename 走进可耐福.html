@@ -837,20 +837,21 @@ body {
         {
           "id": "gypsum-compare",
           "name": "竞品对比",
-          "tag": "蓝臻 Pro+ vs G品牌 vs 国标",
+          "tag": "蓝臻 Pro+ vs 竞品 vs 国标",
           "tier": "info",
           "badge": "性能对比",
-          "desc": "9.5mm蓝臻 Pro+与同等规格G品牌及国标技术要求的性能对比数据。",
+          "desc": "9.5mm蓝臻 Pro+与同等规格竞品及国标技术要求的性能对比数据。",
+          "brandContext": "<h3>品牌背景</h3><p style='line-height:1.8;'><b>可耐福 Knauf</b> — 1932年始于德国，专注石膏建材90余年，全球石膏板产能第一（年产36.3亿m²），320+生产基地遍布90+国家和地区。<br><b>圣戈班 Saint-Gobain</b> — 1665年法国创立，以玻璃制造为核心主业（如凡尔赛宫镜廊），石膏板为其多元化业务板块之一，全球产能排名第三。<br><b>龙牌（北新建材）</b> — 中国市场份额领先，其首条石膏板生产线及轻钢龙骨轧机设备均由可耐福德国总部引进，是国内最早与可耐福技术合作的企业。</p>",
           "comparison": {
             "metrics": ["纵向断裂荷载(N)", "横向断裂荷载(N)", "端头硬度(N)", "棱边硬度(N)", "平米重量(kg)"],
             "knauf": [540, 235, 185, 190, 6.85],
             "competitor": [518, 214, 187, 165, 6.3],
             "standard": [400, 160, 70, 70, 9.5],
-            "competitorName": "G品牌",
+            "competitorName": "竞品",
             "standardName": "国标GB"
           },
           "functionCompare": {
-            "headers": ["增益功能", "蓝臻高强", "蓝臻醛净", "蓝臻耐水", "蓝臻全功能", "G品牌"],
+            "headers": ["增益功能", "蓝臻高强", "蓝臻醛净", "蓝臻耐水", "蓝臻全功能", "竞品"],
             "rows": [
               ["耐水防潮", "—", "—", "✓", "✓", "—"],
               ["遇火稳定性", "90min", "90min", "90min", "90min", "—"],
@@ -1379,6 +1380,11 @@ body {
         h += '</div></div>';
       }
       h += '</div>';
+    }
+
+    // Brand context card
+    if (item.brandContext) {
+      h += '<div class="info-card" style="background:linear-gradient(135deg, #f8fafc, #e8f4fd);border-left:3px solid var(--knauf-deep);">' + item.brandContext + '</div>';
     }
 
     // Comparison bar chart
