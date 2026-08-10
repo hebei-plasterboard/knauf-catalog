@@ -706,6 +706,113 @@ body {
 
 /* Scrollbar */
 ::-webkit-scrollbar { width: 0; }
+
+/* ===== Timeline (公司发展史) ===== */
+.timeline {
+  position: relative;
+  padding: 0 0 0 28px;
+  margin: 0 4px;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 10px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(180deg, var(--knauf-deep), var(--knauf-mid), var(--knauf-light));
+  border-radius: 1px;
+}
+
+.timeline-item {
+  position: relative;
+  background: var(--knauf-white);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  margin-bottom: 16px;
+  box-shadow: var(--card-shadow);
+  animation: cardFadeIn 0.5s ease both;
+}
+
+.timeline-item:last-child {
+  margin-bottom: 0;
+}
+
+.timeline-dot {
+  position: absolute;
+  left: -24px;
+  top: 18px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--knauf-deep);
+  border: 2px solid var(--knauf-light);
+  box-shadow: 0 0 0 3px var(--knauf-white);
+  z-index: 2;
+}
+
+.timeline-item:first-child .timeline-dot {
+  background: var(--gold);
+  border-color: #fef3c7;
+  box-shadow: 0 0 0 3px var(--knauf-white), 0 0 8px rgba(200,150,12,0.4);
+  width: 14px;
+  height: 14px;
+  left: -25px;
+  top: 17px;
+}
+
+.timeline-year {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--knauf-white);
+  background: var(--knauf-deep);
+  padding: 2px 10px;
+  border-radius: 10px;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+
+.timeline-year.now {
+  background: var(--gold);
+}
+
+.timeline-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 6px;
+  line-height: 1.4;
+}
+
+.timeline-desc {
+  font-size: 12px;
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+
+.timeline-highlight {
+  display: inline-block;
+  background: linear-gradient(135deg, #fffbeb, #fef3c7);
+  border: 1px solid #f59e0b;
+  border-radius: 8px;
+  padding: 10px 14px;
+  margin-top: 8px;
+  font-size: 12px;
+  color: #92400e;
+  line-height: 1.6;
+}
+
+.timeline-highlight strong {
+  color: #b45309;
+}
+
+@media (max-width: 360px) {
+  .timeline { padding-left: 24px; }
+  .timeline-dot { left: -20px; }
+  .timeline-item:first-child .timeline-dot { left: -21px; }
+}
 </style>
 </head>
 <body>
@@ -724,6 +831,7 @@ body {
     <div id="view-home" class="view active"></div>
     <div id="view-sub" class="view inactive-right"></div>
     <div id="view-detail" class="view inactive-right"></div>
+    <div id="view-history" class="view inactive-right"></div>
   </div>
   <div id="toast"></div>
 </div>
@@ -1079,7 +1187,91 @@ body {
         }
       ]
     }
-  ]
+  ],
+  "history": {
+    "title": "公司发展史",
+    "subtitle": "从1932到如今 · 德国品质的传承与创新",
+    "events": [
+      {
+        "year": "1932",
+        "title": "梦想启航",
+        "desc": "阿尔方斯·可耐福(Alfons Knauf)与卡尔·可耐福(Karl Knauf)兄弟在德国巴伐利亚州获得石膏矿采矿权，创立可耐福公司。从此，两兄弟凭借对石膏这种纯天然材料的执着，开启了一段跨越近百年的传奇旅程。",
+        "highlight": ""
+      },
+      {
+        "year": "1949",
+        "title": "首批产品问世",
+        "desc": "二战后百废待兴，可耐福出产第一批熟石膏，为战后重建提供关键建材，正式迈入石膏产品制造领域。",
+        "highlight": ""
+      },
+      {
+        "year": "1958",
+        "title": "总部扎根伊普霍芬",
+        "desc": "在德国巴伐利亚州伊普霍芬(Iphofen)建造新工厂，开始规模化生产纸面石膏板及轻钢龙骨系统。伊普霍芬至今仍是可耐福集团全球总部所在地，象征品牌根基。",
+        "highlight": ""
+      },
+      {
+        "year": "1971",
+        "title": "首次海外扩张",
+        "desc": "在澳大利亚成立首家境外公司，标志着可耐福从德国本土企业迈向国际化的重要一步。此后数十年间，全球化步伐持续加速。",
+        "highlight": ""
+      },
+      {
+        "year": "1978",
+        "title": "进军美国市场",
+        "desc": "通过收购位于美国肯塔基州Shelbyville的保温材料公司，成功打入全球最大的建材市场——美国，为日后全球布局奠定基础。",
+        "highlight": ""
+      },
+      {
+        "year": "1995",
+        "title": "进入中国",
+        "desc": "可耐福正式进入中国市场，在安徽芜湖建立首个中国生产基地。作为最早进入中国的外资石膏建材企业之一，可耐福将德国先进的石膏板制造技术带入中国。",
+        "highlight": "值得一提的是，中国龙牌(北新建材)第一条石膏板生产线及轻钢龙骨轧机设备均由可耐福德国总部引进提供，是中国最早与可耐福技术合作的企业。"
+      },
+      {
+        "year": "1996–1998",
+        "title": "全国布局加速",
+        "desc": "天津生产基地(1996年)和广东东莞生产基地(1998年)相继投产，可耐福在中国形成南北呼应、覆盖全国的生产与供应网络。",
+        "highlight": ""
+      },
+      {
+        "year": "2008",
+        "title": "助力北京奥运",
+        "desc": "可耐福为北京奥运会多个标志性场馆提供建材支持，包括国家体育场(鸟巢)、国家游泳中心(水立方)等。这是可耐福在中国市场影响力的一次重要彰显。",
+        "highlight": ""
+      },
+      {
+        "year": "2013",
+        "title": "太仓工厂投产",
+        "desc": "可耐福中国第四大石膏板生产基地——江苏太仓工厂正式投产，进一步提升在华产能，巩固高端市场领先地位。",
+        "highlight": ""
+      },
+      {
+        "year": "2018",
+        "title": "收购美国USG集团",
+        "desc": "可耐福以约70亿美元完成对美国石膏板巨头USG集团(United States Gypsum Corporation)的收购，这是建材行业历史上规模最大的并购之一。此举使可耐福跃居全球石膏板产能首位。",
+        "highlight": ""
+      },
+      {
+        "year": "2019–2021",
+        "title": "全球资源整合",
+        "desc": "连续收购阿姆斯壮(Armstrong)欧亚非业务及优时吉博罗(USG Boral)，实现石膏板、天花吊顶及保温材料业务的全球全区域覆盖，进一步巩固行业领导者地位。",
+        "highlight": ""
+      },
+      {
+        "year": "2023",
+        "title": "中国三十周年",
+        "desc": "可耐福在中国举办三十周年庆典，回顾三十载扎根中国的发展历程。经过持续深耕，可耐福已在中国高端石膏板市场占据近四分之一份额，年提供近1.5亿平方米绿色建材产品。",
+        "highlight": ""
+      },
+      {
+        "year": "至今",
+        "title": "传承五代 · 领跑全球",
+        "desc": "业务遍布全球90多个国家和地区，拥有320多个生产基地、42,500多名员工。年产石膏板36.3亿平方米，超越圣戈班近30%、超越北新建材近45%。旗下拥有USG、Aquapanel、Knauf Insulation等全球顶级建材品牌。五代人用心经营，以德国品质构筑世界的理想家园。",
+        "highlight": ""
+      }
+    ]
+  }
 }
 </script>
 
@@ -1092,10 +1284,11 @@ body {
   var sections = data.sections;
 
   // State
-  var nav = { depth: 0, sectionId: null, itemId: null, sectionIndex: -1, itemIndex: -1 };
+  var nav = { depth: 0, sectionId: null, itemId: null, sectionIndex: -1, itemIndex: -1, page: null };
   var viewHome = document.getElementById('view-home');
   var viewSub = document.getElementById('view-sub');
   var viewDetail = document.getElementById('view-detail');
+  var viewHistory = document.getElementById('view-history');
   var breadcrumb = document.getElementById('breadcrumb');
   var homeBtn = document.getElementById('homeBtn');
   var toast = document.getElementById('toast');
@@ -1130,12 +1323,12 @@ body {
   // Navigation
   function pushNav() {
     try {
-      history.pushState({ depth: nav.depth, sectionId: nav.sectionId, itemId: nav.itemId, sectionIndex: nav.sectionIndex, itemIndex: nav.itemIndex }, '', '');
+      history.pushState({ depth: nav.depth, sectionId: nav.sectionId, itemId: nav.itemId, sectionIndex: nav.sectionIndex, itemIndex: nav.itemIndex, page: nav.page }, '', '');
     } catch(e) {}
   }
 
   window.goHome = function(silent) {
-    nav = { depth: 0, sectionId: null, itemId: null, sectionIndex: -1, itemIndex: -1 };
+    nav = { depth: 0, sectionId: null, itemId: null, sectionIndex: -1, itemIndex: -1, page: null };
     if (!silent) pushNav();
     updateView();
   };
@@ -1163,8 +1356,18 @@ body {
     updateView();
   };
 
+  window.goHistory = function() {
+    nav.page = 'history';
+    nav.depth = 0;
+    pushNav();
+    updateView();
+  };
+
   window.goBack = function() {
-    if (nav.depth === 2) {
+    if (nav.page === 'history') {
+      nav.page = null;
+      nav.depth = 0;
+    } else if (nav.depth === 2) {
       nav.depth = 1;
       nav.itemId = null;
       nav.itemIndex = -1;
@@ -1179,7 +1382,10 @@ body {
 
   function updateView() {
     // Header
-    if (nav.depth === 0) {
+    if (nav.page === 'history') {
+      breadcrumb.innerHTML = '<span class="clickable" onclick="goHome()">首页</span><span> › </span>公司发展史';
+      homeBtn.classList.remove('hidden');
+    } else if (nav.depth === 0) {
       breadcrumb.innerHTML = '首页';
       homeBtn.classList.add('hidden');
     } else if (nav.depth === 1) {
@@ -1197,8 +1403,15 @@ body {
     viewHome.className = 'view';
     viewSub.className = 'view';
     viewDetail.className = 'view';
+    viewHistory.className = 'view';
 
-    if (nav.depth === 0) {
+    if (nav.page === 'history') {
+      viewHome.classList.add('inactive-left');
+      viewSub.classList.add('inactive-left');
+      viewDetail.classList.add('inactive-left');
+      viewHistory.classList.add('active');
+      renderHistory();
+    } else if (nav.depth === 0) {
       viewHome.classList.add('active');
       viewSub.classList.add('inactive-right');
       viewDetail.classList.add('inactive-right');
@@ -1219,6 +1432,39 @@ body {
     window.scrollTo(0, 0);
   }
 
+  // Render History
+  function renderHistory() {
+    var hist = data.history;
+    var events = hist.events;
+    var h = '';
+
+    // Header
+    h += '<div class="section-header">';
+    h += '<span class="section-header-icon">📜</span>';
+    h += '<div class="section-header-title">' + hist.title + '</div>';
+    h += '<div class="section-header-desc">' + hist.subtitle + '</div>';
+    h += '</div>';
+
+    // Timeline
+    h += '<div class="timeline">';
+    for (var i = 0; i < events.length; i++) {
+      var e = events[i];
+      var isLast = (i === events.length - 1);
+      h += '<div class="timeline-item" style="animation-delay:' + (i * 0.08) + 's">';
+      h += '<div class="timeline-dot"></div>';
+      h += '<span class="timeline-year' + (isLast ? ' now' : '') + '">' + e.year + '</span>';
+      h += '<div class="timeline-title">' + e.title + '</div>';
+      h += '<div class="timeline-desc">' + e.desc + '</div>';
+      if (e.highlight) {
+        h += '<div class="timeline-highlight">' + e.highlight + '</div>';
+      }
+      h += '</div>';
+    }
+    h += '</div>';
+
+    viewHistory.innerHTML = h;
+  }
+
   // Render Home
   function renderHome() {
     var h = '';
@@ -1233,7 +1479,11 @@ body {
       var s = welcome.stats[i];
       h += '<div class="welcome-stat"><div class="welcome-stat-num">' + s.num + '</div><div class="welcome-stat-label">' + s.label + '</div></div>';
     }
-    h += '</div></div>';
+    h += '</div>';
+    h += '<div style="margin-top:14px;cursor:pointer;" onclick="event.stopPropagation();goHistory();">';
+    h += '<span style="display:inline-block;padding:6px 18px;border:1px solid rgba(255,255,255,0.4);border-radius:20px;font-size:12px;color:rgba(255,255,255,0.9);letter-spacing:1px;">📜 了解发展历程 →</span>';
+    h += '</div>';
+    h += '</div>';
 
     // Section cards
     h += '<div class="card-grid">';
