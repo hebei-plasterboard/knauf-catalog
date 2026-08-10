@@ -1415,15 +1415,18 @@ body {
       viewHome.classList.add('active');
       viewSub.classList.add('inactive-right');
       viewDetail.classList.add('inactive-right');
+      viewHistory.classList.add('inactive-right');
     } else if (nav.depth === 1) {
       viewHome.classList.add('inactive-left');
       viewSub.classList.add('active');
       viewDetail.classList.add('inactive-right');
+      viewHistory.classList.add('inactive-right');
       renderSub();
     } else if (nav.depth === 2) {
       viewHome.classList.add('inactive-left');
       viewSub.classList.add('inactive-left');
       viewDetail.classList.add('active');
+      viewHistory.classList.add('inactive-right');
       renderDetail();
     }
 
