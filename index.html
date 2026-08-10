@@ -1186,6 +1186,29 @@ body {
           ]
         }
       ]
+    },
+    {
+      "id": "material",
+      "title": "物料支持",
+      "icon": "🎁",
+      "subtitle": "销售物料与支持",
+      "color": "#E67E22",
+      "desc": "可耐福为销售团队提供全面的物料支持，包括产品样块、宣传物料及客户礼品等，助力一线销售工作。",
+      "items": [
+        {
+          "id": "material-guide",
+          "name": "物料申请指南",
+          "tag": "申请流程与注意事项",
+          "tier": "info",
+          "badge": "物料支持",
+          "specs": [],
+          "steps": [
+            { "title": "随车携带优先", "desc": "公司物料一般情况下鼓励大家随车携带。遇到特殊紧急情况，可以选择单独邮寄。" },
+            { "title": "提前沟通申请", "desc": "物料申请需提前与当地销售沟通，由销售对公司发起物料申请单。随车携带的情况，则在下单时尽量把物料信息备注。" },
+            { "title": "物料种类", "desc": "公司物料包括：产品样块、雨布、小礼品（纸杯、笔、笔记本、盒尺、T恤等）。" }
+          ]
+        }
+      ]
     }
   ],
   "history": {
@@ -1490,7 +1513,7 @@ body {
 
     // Section cards
     h += '<div class="card-grid">';
-    var accents = ['card-accent-gold', 'card-accent-blue', 'card-accent-green', 'card-accent-purple'];
+    var accents = ['card-accent-gold', 'card-accent-blue', 'card-accent-green', 'card-accent-purple', 'card-accent-silver'];
     for (var i = 0; i < sections.length; i++) {
       var sec = sections[i];
       h += '<div class="card ' + accents[i] + '" onclick="goSection(\'' + sec.id + '\')">';
