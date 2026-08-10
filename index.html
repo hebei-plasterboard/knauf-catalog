@@ -1184,23 +1184,13 @@ body {
             { "title": "确认参观信息", "desc": "提前沟通参观人数、客户人员及职位，确认公司接待人员，是否需要安排用餐和住宿等。" },
             { "title": "公司安排接待", "desc": "公司统一安排接待计划，提前与客户沟通确认。" }
           ]
-        }
-      ]
-    },
-    {
-      "id": "material",
-      "title": "物料支持",
-      "icon": "🎁",
-      "subtitle": "销售物料与支持",
-      "color": "#E67E22",
-      "desc": "可耐福为销售团队提供全面的物料支持，包括产品样块、宣传物料及客户礼品等，助力一线销售工作。",
-      "items": [
+        },
         {
-          "id": "material-guide",
-          "name": "物料申请指南",
-          "tag": "申请流程与注意事项",
+          "id": "material",
+          "name": "物料支持",
+          "tag": "销售物料申请与领取",
           "tier": "info",
-          "badge": "物料支持",
+          "badge": "物料指南",
           "specs": [],
           "steps": [
             { "title": "随车携带优先", "desc": "公司物料一般情况下鼓励大家随车携带。遇到特殊紧急情况，可以选择单独邮寄。" },
@@ -1513,7 +1503,7 @@ body {
 
     // Section cards
     h += '<div class="card-grid">';
-    var accents = ['card-accent-gold', 'card-accent-blue', 'card-accent-green', 'card-accent-purple', 'card-accent-silver'];
+    var accents = ['card-accent-gold', 'card-accent-blue', 'card-accent-green', 'card-accent-purple'];
     for (var i = 0; i < sections.length; i++) {
       var sec = sections[i];
       h += '<div class="card ' + accents[i] + '" onclick="goSection(\'' + sec.id + '\')">';
