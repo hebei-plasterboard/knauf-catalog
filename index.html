@@ -1677,31 +1677,34 @@ body {
     submitBtn.disabled = true;
     submitBtn.textContent = '提交中...';
 
-    // Replace FORMSPREE_ID with your actual Formspree form ID
     fetch('https://formspree.io/f/xwleokwe', {
       method: 'POST',
       body: formData,
       headers: { 'Accept': 'application/json' }
     })
     .then(function(response) {
-      if (response.ok) {
-        // Show success
-        var h = '';
-        h += '<div class="form-success">';
-        h += '<span class="success-icon">✅</span>';
-        h += '<h3>感谢您的反馈！</h3>';
-        h += '<p>我们已收到您的建议，<br>将认真对待并尽快处理。</p>';
-        h += '<button class="form-submit" onclick="goHome()">🏠 返回首页</button>';
-        h += '</div>';
-        document.getElementById('formCard').innerHTML = h;
-      } else {
-        throw new Error('Submit failed');
-      }
+      return response.json().then(function(data) {
+        if (response.ok) {
+          // Show success
+          var h = '';
+          h += '<div class="form-success">';
+          h += '<span class="success-icon">✅</span>';
+          h += '<h3>感谢您的反馈！</h3>';
+          h += '<p>我们已收到您的建议，<br>将认真对待并尽快处理。</p>';
+          h += '<button class="form-submit" onclick="goHome()">🏠 返回首页</button>';
+          h += '</div>';
+          document.getElementById('formCard').innerHTML = h;
+        } else {
+          // Formspree returned an error - show the actual error message
+          var errMsg = data && data.error ? data.error : ('HTTP ' + response.status);
+          throw new Error(errMsg);
+        }
+      });
     })
     .catch(function(error) {
       submitBtn.disabled = false;
       submitBtn.textContent = '📨 提交反馈';
-      showToast('提交失败，请稍后重试', '😞');
+      showToast('提交失败: ' + error.message, '😞');
     });
   };
 
