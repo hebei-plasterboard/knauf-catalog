@@ -935,6 +935,11 @@ sub {
   margin-top: 4px;
   display: none;
 }
+.img-stack img { display: block; width: 100%; border-radius: 12px; margin-bottom: 10px; box-shadow: 0 2px 8px rgba(0,0,0,.12); background: #eee; cursor: pointer; }
+.img-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.img-row img { display: block; width: 100%; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,.12); background: #eee; cursor: pointer; }
+#lightbox { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,.92); display: none; align-items: center; justify-content: center; z-index: 9999; }
+#lightbox img { max-width: 100%; max-height: 100%; }
 </style>
 </head>
 <body>
@@ -958,6 +963,8 @@ sub {
   </div>
   <div id="toast"></div>
 </div>
+
+<div id="lightbox" onclick="closeLightbox()"><img id="lightbox-img" src="" alt=""></div>
 
 <script type="application/json" id="data-payload">
 {
@@ -993,6 +1000,8 @@ sub {
           "tier": "premium",
           "badge": "高端旗舰",
           "desc": "行业领先水平的性能和功能于一身的高端产品，具有更好的应用普及性。",
+          "images": ["images/蓝臻高强.png", "images/蓝臻醛净.png", "images/蓝臻耐水.png", "images/蓝臻全功能.png"],
+          "imageRow": ["images/蓝色.jpg", "images/白色.jpg"],
           "specs": [
             { "label": "强度超国标", "value": "30%", "color": "" },
             { "label": "硬度超国标", "value": "140%", "color": "" },
@@ -1510,6 +1519,15 @@ sub {
     updateView();
   };
 
+  window.openLightbox = function(src) {
+    document.getElementById('lightbox-img').src = src;
+    document.getElementById('lightbox').style.display = 'flex';
+  };
+
+  window.closeLightbox = function() {
+    document.getElementById('lightbox').style.display = 'none';
+  };
+
   function updateView() {
     // Header
     if (nav.page === 'history') {
@@ -1783,6 +1801,23 @@ sub {
     h += '<div class="tagline">' + item.tag + '</div>';
     if (item.desc) h += '<p style="margin-top:8px;font-size:12px;opacity:0.8;">' + item.desc + '</p>';
     h += '</div>';
+
+    // Product images — 竖向堆叠
+    if (item.images && item.images.length > 0) {
+      h += '<div class="img-stack">';
+      for (var i = 0; i < item.images.length; i++) {
+        h += '<img src="' + item.images[i] + '" onclick="openLightbox(\'' + item.images[i] + '\')" alt="' + item.name + '">';
+      }
+      h += '</div>';
+    }
+    // Product images — 两列并排
+    if (item.imageRow && item.imageRow.length > 0) {
+      h += '<div class="img-row">';
+      for (var i = 0; i < item.imageRow.length; i++) {
+        h += '<img src="' + item.imageRow[i] + '" onclick="openLightbox(\'' + item.imageRow[i] + '\')" alt="' + item.name + '">';
+      }
+      h += '</div>';
+    }
 
     // Specs grid
     if (item.specs && item.specs.length > 0) {
