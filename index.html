@@ -964,7 +964,7 @@ sub {
   <div id="toast"></div>
 </div>
 
-<div id="lightbox" onclick="closeLightbox()"><img id="lightbox-img" src="" alt=""></div>
+<div id="lightbox" onclick="dismissLightbox()"><img id="lightbox-img" src="" alt=""></div>
 
 <script type="application/json" id="data-payload">
 {
@@ -1422,6 +1422,7 @@ sub {
   var homeBtn = document.getElementById('homeBtn');
   var toast = document.getElementById('toast');
   var toastTimer = null;
+  var lightboxOpen = false;
 
   // Icons
   var sectionIcons = { gypsum: '📦', stud: '🔩', plaster: '🏗️', workflow: '📋' };
@@ -1430,6 +1431,10 @@ sub {
   function init() {
     renderHome();
     window.addEventListener('popstate', function(e) {
+      if (lightboxOpen) {
+        window.closeLightbox();
+        return;
+      }
       if (e.state) {
         nav = e.state;
         updateView();
@@ -1522,10 +1527,19 @@ sub {
   window.openLightbox = function(src) {
     document.getElementById('lightbox-img').src = src;
     document.getElementById('lightbox').style.display = 'flex';
+    lightboxOpen = true;
+    try { history.pushState({ lightbox: true }, '', ''); } catch(e) {}
   };
 
   window.closeLightbox = function() {
     document.getElementById('lightbox').style.display = 'none';
+    lightboxOpen = false;
+  };
+
+  window.dismissLightbox = function() {
+    if (!lightboxOpen) return;
+    window.closeLightbox();
+    history.back();
   };
 
   function updateView() {
