@@ -1000,7 +1000,7 @@ sub {
           "tier": "premium",
           "badge": "高端旗舰",
           "desc": "行业领先水平的性能和功能于一身的高端产品，具有更好的应用普及性。",
-          "images": ["images/蓝臻高强.png", "images/蓝臻醛净.png", "images/蓝臻耐水.png", "images/蓝臻全功能.png"],
+          "images": ["images/蓝臻高强.jpg", "images/蓝臻醛净.jpg", "images/蓝臻耐水.jpg", "images/蓝臻全功能.jpg"],
           "imageRow": ["images/蓝色.jpg", "images/白色.jpg"],
           "specs": [
             { "label": "强度超国标", "value": "30%", "color": "" },
@@ -1820,7 +1820,7 @@ sub {
     if (item.images && item.images.length > 0) {
       h += '<div class="img-stack">';
       for (var i = 0; i < item.images.length; i++) {
-        h += '<img src="' + item.images[i] + '" onclick="openLightbox(\'' + item.images[i] + '\')" alt="' + item.name + '">';
+        h += '<img src="' + item.images[i] + '" loading="lazy" decoding="async" onclick="openLightbox(\'' + item.images[i] + '\')" alt="' + item.name + '">';
       }
       h += '</div>';
     }
@@ -1828,7 +1828,7 @@ sub {
     if (item.imageRow && item.imageRow.length > 0) {
       h += '<div class="img-row">';
       for (var i = 0; i < item.imageRow.length; i++) {
-        h += '<img src="' + item.imageRow[i] + '" onclick="openLightbox(\'' + item.imageRow[i] + '\')" alt="' + item.name + '">';
+        h += '<img src="' + item.imageRow[i] + '" loading="lazy" decoding="async" onclick="openLightbox(\'' + item.imageRow[i] + '\')" alt="' + item.name + '">';
       }
       h += '</div>';
     }
