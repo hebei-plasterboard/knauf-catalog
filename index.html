@@ -938,8 +938,10 @@ sub {
 .img-stack img { display: block; width: 100%; border-radius: 12px; margin-bottom: 10px; box-shadow: 0 2px 8px rgba(0,0,0,.12); background: #eee; cursor: pointer; }
 .img-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 .img-row img { display: block; width: 100%; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,.12); background: #eee; cursor: pointer; }
-#lightbox { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,.92); display: none; align-items: center; justify-content: center; z-index: 9999; }
-#lightbox img { max-width: 100%; max-height: 100%; }
+#lightbox { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,.92); display: none; align-items: center; justify-content: center; z-index: 9999; touch-action: none; overflow: hidden; }
+#lightbox img { max-width: 100%; max-height: 100%; transform-origin: center center; will-change: transform; user-select: none; -webkit-user-select: none; -webkit-user-drag: none; -webkit-touch-callout: none; }
+#lightbox-close { position: fixed; top: 12px; right: 12px; width: 40px; height: 40px; border: none; border-radius: 50%; background: rgba(255,255,255,.18); color: #fff; font-size: 26px; line-height: 40px; text-align: center; cursor: pointer; z-index: 10001; }
+#lightbox-hint { position: fixed; bottom: 16px; left: 0; right: 0; text-align: center; color: rgba(255,255,255,.7); font-size: 12px; letter-spacing: 1px; pointer-events: none; z-index: 10001; }
 </style>
 </head>
 <body>
@@ -964,7 +966,7 @@ sub {
   <div id="toast"></div>
 </div>
 
-<div id="lightbox" onclick="dismissLightbox()"><img id="lightbox-img" src="" alt=""></div>
+<div id="lightbox"><img id="lightbox-img" src="" alt=""><button id="lightbox-close" onclick="dismissLightbox()">×</button><div id="lightbox-hint">双指缩放 · 双击放大</div></div>
 
 <script type="application/json" id="data-payload">
 {
@@ -1000,7 +1002,7 @@ sub {
           "tier": "premium",
           "badge": "高端旗舰",
           "desc": "行业领先水平的性能和功能于一身的高端产品，具有更好的应用普及性。",
-          "images": ["images/蓝臻高强.jpg", "images/蓝臻醛净.jpg", "images/蓝臻耐水.jpg", "images/蓝臻全功能.jpg"],
+          "images": ["images/蓝臻封头.jpg"],
           "imageRow": ["images/蓝色.jpg", "images/白色.jpg"],
           "specs": [
             { "label": "强度超国标", "value": "30%", "color": "" },
@@ -1524,16 +1526,38 @@ sub {
     updateView();
   };
 
+  // ---- Lightbox with pinch zoom ----
+  var lbEl = document.getElementById('lightbox');
+  var lbImg = document.getElementById('lightbox-img');
+  var lbScale = 1, lbTx = 0, lbTy = 0;
+  var lbPinchStart = 0, lbPinchScale = 1, lbPinchCX = 0, lbPinchCY = 0;
+  var lbPanStart = null;
+  var lbLastTapTime = 0, lbLastTapX = 0, lbLastTapY = 0;
+  var lbTapTimer = null;
+  var lbMoved = false;
+
+  function lbApplyTransform() {
+    lbImg.style.transform = 'translate(' + lbTx + 'px,' + lbTy + 'px) scale(' + lbScale + ')';
+  }
+
+  function lbResetTransform() {
+    lbScale = 1; lbTx = 0; lbTy = 0;
+    lbApplyTransform();
+  }
+
   window.openLightbox = function(src) {
-    document.getElementById('lightbox-img').src = src;
-    document.getElementById('lightbox').style.display = 'flex';
+    lbImg.src = src;
+    lbResetTransform();
+    lbEl.style.display = 'flex';
     lightboxOpen = true;
     try { history.pushState({ lightbox: true }, '', ''); } catch(e) {}
   };
 
   window.closeLightbox = function() {
-    document.getElementById('lightbox').style.display = 'none';
+    lbEl.style.display = 'none';
     lightboxOpen = false;
+    if (lbTapTimer) { clearTimeout(lbTapTimer); lbTapTimer = null; }
+    lbResetTransform();
   };
 
   window.dismissLightbox = function() {
@@ -1541,6 +1565,90 @@ sub {
     window.closeLightbox();
     history.back();
   };
+
+  function lbDist(t1, t2) {
+    var dx = t1.clientX - t2.clientX, dy = t1.clientY - t2.clientY;
+    return Math.sqrt(dx * dx + dy * dy);
+  }
+
+  lbEl.addEventListener('touchstart', function(e) {
+    if (!lightboxOpen) return;
+    if (e.touches.length === 2) {
+      lbPinchStart = lbDist(e.touches[0], e.touches[1]);
+      lbPinchScale = lbScale;
+      lbPinchCX = (e.touches[0].clientX + e.touches[1].clientX) / 2;
+      lbPinchCY = (e.touches[0].clientY + e.touches[1].clientY) / 2;
+      lbMoved = true;
+    } else if (e.touches.length === 1) {
+      lbPanStart = { x: e.touches[0].clientX, y: e.touches[0].clientY, tx: lbTx, ty: lbTy };
+      lbMoved = false;
+    }
+  }, { passive: false });
+
+  lbEl.addEventListener('touchmove', function(e) {
+    if (!lightboxOpen) return;
+    if (e.touches.length === 2) {
+      e.preventDefault();
+      var d = lbDist(e.touches[0], e.touches[1]);
+      if (lbPinchStart > 0) {
+        lbScale = Math.max(1, Math.min(4, lbPinchScale * (d / lbPinchStart)));
+        var cx = (e.touches[0].clientX + e.touches[1].clientX) / 2;
+        var cy = (e.touches[0].clientY + e.touches[1].clientY) / 2;
+        lbTx += cx - lbPinchCX;
+        lbTy += cy - lbPinchCY;
+        lbPinchCX = cx; lbPinchCY = cy;
+        lbApplyTransform();
+      }
+    } else if (e.touches.length === 1 && lbScale > 1) {
+      e.preventDefault();
+      lbMoved = true;
+      if (lbPanStart) {
+        lbTx = lbPanStart.tx + (e.touches[0].clientX - lbPanStart.x);
+        lbTy = lbPanStart.ty + (e.touches[0].clientY - lbPanStart.y);
+        lbApplyTransform();
+      }
+    } else if (e.touches.length === 1) {
+      if (lbPanStart) {
+        var dx = e.touches[0].clientX - lbPanStart.x, dy = e.touches[0].clientY - lbPanStart.y;
+        if (dx * dx + dy * dy > 64) lbMoved = true;
+      }
+    }
+  }, { passive: false });
+
+  lbEl.addEventListener('touchend', function(e) {
+    if (!lightboxOpen) return;
+    if (lbScale < 1.05) lbResetTransform();
+    lbPinchStart = 0;
+    lbPanStart = null;
+  }, { passive: false });
+
+  lbEl.addEventListener('click', function(e) {
+    if (!lightboxOpen) return;
+    if (lbMoved) { lbMoved = false; return; }
+    var now = Date.now();
+    var isDouble = (now - lbLastTapTime < 300) && (Math.abs(e.clientX - lbLastTapX) < 30 && Math.abs(e.clientY - lbLastTapY) < 30);
+    if (isDouble) {
+      if (lbTapTimer) { clearTimeout(lbTapTimer); lbTapTimer = null; }
+      if (lbScale > 1) lbResetTransform();
+      else { lbScale = 2.5; lbApplyTransform(); }
+      lbLastTapTime = 0;
+      return;
+    }
+    lbLastTapTime = now; lbLastTapX = e.clientX; lbLastTapY = e.clientY;
+    if (lbScale > 1.05) {
+      lbResetTransform();
+    } else {
+      if (lbTapTimer) clearTimeout(lbTapTimer);
+      lbTapTimer = setTimeout(function() { lbTapTimer = null; window.dismissLightbox(); }, 300);
+    }
+  });
+
+  lbEl.addEventListener('wheel', function(e) {
+    if (!lightboxOpen) return;
+    e.preventDefault();
+    lbScale = Math.max(1, Math.min(4, lbScale + (e.deltaY > 0 ? -0.2 : 0.2)));
+    if (lbScale <= 1.05) lbResetTransform(); else lbApplyTransform();
+  }, { passive: false });
 
   function updateView() {
     // Header
