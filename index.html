@@ -937,7 +937,7 @@ sub {
 }
 .img-stack img { display: block; width: 100%; border-radius: 12px; margin-bottom: 10px; box-shadow: 0 2px 8px rgba(0,0,0,.12); background: #eee; cursor: pointer; }
 .img-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-.img-row img { display: block; width: 100%; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,.12); background: #eee; cursor: pointer; }
+.img-row img { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,.12); background: #eee; cursor: pointer; }
 #lightbox { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,.92); display: none; align-items: center; justify-content: center; z-index: 9999; touch-action: none; overflow: hidden; }
 #lightbox img { max-width: 100%; max-height: 100%; transform-origin: center center; will-change: transform; user-select: none; -webkit-user-select: none; -webkit-user-drag: none; -webkit-touch-callout: none; }
 #lightbox-close { position: fixed; top: 12px; right: 12px; width: 40px; height: 40px; border: none; border-radius: 50%; background: rgba(255,255,255,.18); color: #fff; font-size: 26px; line-height: 40px; text-align: center; cursor: pointer; z-index: 10001; }
